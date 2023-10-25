@@ -1,8 +1,10 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  entry: "./src/index.tsx",
+  mode: "development",
+  entry: "./src/index.js",
   devServer: {
     static: {
       directory: path.join(__dirname, "dist"),
@@ -21,9 +23,14 @@ module.exports = {
         },
       },
       {
-        test: /\.tsx?$/,
-        use: "ts-loader",
+        test: /\.m?js$/,
         exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+          },
+        },
       },
       {
         test: /\.(svg|png|gif|jpg)$/,
@@ -37,12 +44,13 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".jsx", ".js"],
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "src", "index.html"),
     }),
+    new CleanWebpackPlugin(),
   ],
   output: {
     filename: "[name].js",
