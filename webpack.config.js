@@ -10,6 +10,7 @@ module.exports = {
       directory: path.join(__dirname, "dist"),
     },
     port: 2222,
+    historyApiFallback: true,
   },
   module: {
     rules: [
@@ -40,6 +41,10 @@ module.exports = {
       {
         test: /\.(ttf|eot|woff|svg|woff2)$/,
         loader: "file-loader",
+      },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
       },
     ],
   },
